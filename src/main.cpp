@@ -33,15 +33,14 @@ int main(int argc, char* argv[]) {
 
     Game game{};
 
-    long lastUpdate = getCurrentTime();
-    long lastUpdateNano = getCurrentTimeNS();
+    long lastUpdate = clck::getCurrentTime();
+    long lastUpdateNano = clck::getCurrentTimeNS();
     while(true) {
-        long dt = getCurrentTime() - lastUpdate;
-        long dtNano = getCurrentTimeNS() - lastUpdateNano;
-        lastUpdate = getCurrentTime();
-        lastUpdateNano = getCurrentTimeNS();
+        long dt = clck::getCurrentTime() - lastUpdate;
+        long dtNano = clck::getCurrentTimeNS() - lastUpdateNano;
+        lastUpdate = clck::getCurrentTime();
+        lastUpdateNano = clck::getCurrentTimeNS();
 
-        std::cout << dt << "\n";
         long fps = dtNano != 0? 1000000000 / dtNano: 0;
 
         std::string newTitle{title + " (" + std::to_string(fps) + ")"};
@@ -54,9 +53,16 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            if(event.type == SDL_KEYDOWN) {
+            if(event.type == SDL_KEYUP) {
                 int key{ event.key.keysym.sym};
-                std::cout << "kd " << key << " " << (char)key << std::endl;
+                
+                if(key == SDLK_LCTRL) {
+                    game.pressControl();
+                }
+
+                 if(key == SDLK_SPACE) {
+                    game.pressSpace();
+                }
             }
         }
         if(quit) break;
@@ -66,19 +72,14 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderClear(renderer);
 
-        render(renderer);
         game.render(renderer);
 
         SDL_RenderPresent(renderer);
 
-        sleep(lastUpdate + (1000/60) - getCurrentTime());
+        clck::sleep(lastUpdate + (1000/60) - clck::getCurrentTime());
     }
 
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
-}
-
-void render(SDL_Renderer* renderer) {
-    fillRect(renderer, {20, 20, 40, 40}, {0, 255, 0});
 }

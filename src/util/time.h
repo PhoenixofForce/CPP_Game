@@ -4,11 +4,13 @@
 #include <chrono>
 #include <thread>
 
+namespace clck {
 
-long getCurrentTime();
-long getCurrentTimeNS();
+    long getCurrentTime();
+    long getCurrentTimeNS();
 
-void sleep(long ms);
+    void sleep(long ms);
 
+}
 
 #endif

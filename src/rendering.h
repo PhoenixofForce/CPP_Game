@@ -2,6 +2,9 @@
 #define RENDERING_H
 
 #include <SDL2/SDL.h>
+
+#include <string>
+
 #include "data/color.h"
 #include "data/rect.h"
 

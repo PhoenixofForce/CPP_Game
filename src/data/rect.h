@@ -2,8 +2,8 @@
 #define RECT_H
 
 struct Rect {
-    int x{};
-    int y{};
+    int x{0};
+    int y{0};
     int w{1};
     int h{1};
 };
